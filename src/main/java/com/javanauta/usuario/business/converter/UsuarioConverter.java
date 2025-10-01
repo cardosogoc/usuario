@@ -14,7 +14,8 @@ import java.util.List;
 @Component
 public class UsuarioConverter {
 
-    //de DTO para Entidade
+    // Conversões de DTO → Entidade
+    // Usadas quando recebemos dados da API e precisamos salvar no banco
 
     public Usuario paraUsuario(UsuarioDTO usuarioDTO){
         return Usuario.builder()
@@ -56,15 +57,16 @@ public class UsuarioConverter {
                 .build();
     }
 
-    //De DTO para Entidade
+    // Conversões de Entidade → DTO
+    // Usadas quando buscamos do banco e precisamos devolver para a API
 
-    public UsuarioDTO paraUsuarioDTO(Usuario usuarioDTO){
+    public UsuarioDTO paraUsuarioDTO(Usuario usuario){
         return UsuarioDTO.builder()
-                .nome(usuarioDTO.getNome())
-                .email(usuarioDTO.getEmail())
-                .senha(usuarioDTO.getSenha())
-                .enderecos(paraListaEnderecoDTO(usuarioDTO.getEnderecos()))
-                .telefones(paraListaTelefoneDTO(usuarioDTO.getTelefones()))
+                .nome(usuario.getNome())
+                .email(usuario.getEmail())
+                .senha(usuario.getSenha())
+                .enderecos(paraListaEnderecoDTO(usuario.getEnderecos()))
+                .telefones(paraListaTelefoneDTO(usuario.getTelefones()))
                 .build();
     }
 
