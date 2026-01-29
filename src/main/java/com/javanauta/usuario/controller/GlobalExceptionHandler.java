@@ -36,13 +36,21 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<String> handleUnauthorizedException(UnauthorizedException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<ErrorResponseDTO> handleUnauthorizedException(UnauthorizedException ex, HttpServletRequest request){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(buildError(
+                HttpStatus.UNAUTHORIZED.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        ));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentExcption(IllegalArgumentException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponseDTO> handleIllegalArgumentExcption(IllegalArgumentException ex, HttpServletRequest request){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(buildError(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        ));
     }
 
     private ErrorResponseDTO buildError(int status, String message, String path){
